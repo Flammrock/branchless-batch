@@ -1,0 +1,147 @@
+// Actually not good but work for my needs
+
+@top Program { commands }
+
+commands { (command (newline | And | Redirector)+)* command? }
+
+command { space? Arobase? (LineComment | Label | If | Else | Goto | For | In | Do | Call | Exit | Errorlevel | Cscript | Prn | Nul | Lpt3 | Lpt2 | Lpt1 | Con | Com4 | Com3 | Com2 | Com1 | Aux | Shift | Cd | Echo | Setlocal | Endlocal | Set | Copy | Append | Assoc | At | Attrib | Break | Cacls | Cd | Chcp | Chdir | Chkdsk | Chkntfs | Cls | Cmd | Color | Comp | Compact | Convert | Date | Dir | Diskcomp | Diskcopy | Doskey | Erase | Fs | Find | Findstr | Format | Ftype | Graftabl | Help | Keyb | Label | Md | Mkdir | Mode | More | Move | Path | Pause | Print | Popd | Pushd | Promt | Prompt | Rd | Recover | Rename | Replace | Restore | Rmdir | Shiftsort | Start | Subst | Time | Title | Tree | Type | Ver | Verify | Vol | Ping | Net | Ipconfig | Taskkill | Xcopy | Ren | Del | Variable) }
+
+Set { set Quote? Commutator* ((space identifier SetDef?) | space)? }
+SetDef { space? Equal Any }
+Echo { echo (" " | ";" | "," | "." | "\\" | "(") Any }
+If { if Commutator* (space? (not | defined | exist)+) }
+Else { else Any }
+Goto { goto space? Label }
+For { for Any }
+In { in Any }
+Do { do Any }
+Call { call Any }
+Exit { exit Any }
+Errorlevel { errorlevel Any }
+Cscript { cscript Any }
+Prn { prn Any }
+Nul { nul Any }
+Lpt3 { lpt3 Any }
+Lpt2 { lpt2 Any }
+Lpt1 { lpt1 Any }
+Con { con Any }
+Com4 { com4 Any }
+Com3 { com3 Any }
+Com2 { com2 Any }
+Com1 { com1 Any }
+Aux { aux Any }
+Shift { shift Any }
+Cd { cd Any }
+Setlocal { setlocal Any }
+Endlocal { endlocal Any }
+Copy { copy Any }
+Append { append Any }
+Assoc { assoc Any }
+At { at Any }
+Attrib { attrib Any }
+Break { break Any }
+Cacls { cacls Any }
+Chcp { chcp Any }
+Chdir { chdir Any }
+Chkdsk { chkdsk Any }
+Chkntfs { chkntfs Any }
+Cls { cls Any }
+Cmd { cmd Any }
+Color { color Any }
+Comp { comp Any }
+Compact { compact Any }
+Convert { convert Any }
+Date { date Any }
+Dir { dir Any }
+Diskcomp { diskcomp Any }
+Diskcopy { diskcopy Any }
+Doskey { doskey Any }
+Erase { erase Any }
+Fs { fs Any }
+Find { find Any }
+Findstr { findstr Any }
+Format { format Any }
+Ftype { ftype Any }
+Graftabl { graftabl Any }
+Help { help Any }
+Keyb { keyb Any }
+Md { md Any }
+Mkdir { mkdir Any }
+Mode { mode Any }
+More { more Any }
+Move { move Any }
+Path { path Any }
+Pause { pause Any }
+Print { print Any }
+Popd { popd Any }
+Pushd { pushd Any }
+Promt { promt Any }
+Prompt { prompt Any }
+Rd { rd Any }
+Recover { recover Any }
+Rename { rename Any }
+Replace { replace Any }
+Restore { restore Any }
+Rmdir { rmdir Any }
+Shiftsort { shiftsort Any }
+Start { start Any }
+Subst { subst Any }
+Time { time Any }
+Title { title Any }
+Tree { tree Any }
+Type { type Any }
+Ver { ver Any }
+Verify { verify Any }
+Vol { vol Any }
+Ping { ping Any }
+Net { net Any }
+Ipconfig { ipconfig Any }
+Taskkill { taskkill Any }
+Xcopy { xcopy Any }
+Ren { ren Any }
+Del { del Any }
+
+Commutator { SingleCommutator }
+
+Any { ((NotVariable? Variable)* NotVariable?) }
+
+@external specialize {identifier} keywords from "./index" {
+if[@name=if], else[@name=else], goto[@name=goto], for[@name=for], in[@name=in], do[@name=do], call[@name=call], exit[@name=exit], not[@name=not], exist[@name=exist], errorlevel[@name=errorlevel], defined[@name=defined], cscript[@name=cscript], prn[@name=prn], nul[@name=nul], lpt3[@name=lpt3], lpt2[@name=lpt2], lpt1[@name=lpt1], con[@name=con], com4[@name=com4], com3[@name=com3], com2[@name=com2], com1[@name=com1], aux[@name=aux], shift[@name=shift], cd[@name=cd], echo[@name=echo], setlocal[@name=setlocal], endlocal[@name=endlocal], set[@name=set], copy[@name=copy], append[@name=append], assoc[@name=assoc], at[@name=at], attrib[@name=attrib], break[@name=break], cacls[@name=cacls], chcp[@name=chcp], chdir[@name=chdir], chkdsk[@name=chkdsk], chkntfs[@name=chkntfs], cls[@name=cls], cmd[@name=cmd], color[@name=color], comp[@name=comp], compact[@name=compact], convert[@name=convert], date[@name=date], dir[@name=dir], diskcomp[@name=diskcomp], diskcopy[@name=diskcopy], doskey[@name=doskey], erase[@name=erase], fs[@name=fs], find[@name=find], findstr[@name=findstr], format[@name=format], ftype[@name=ftype], graftabl[@name=graftabl], help[@name=help], keyb[@name=keyb], md[@name=md], mkdir[@name=mkdir], mode[@name=mode], more[@name=more], move[@name=move], path[@name=path], pause[@name=pause], print[@name=print], popd[@name=popd], pushd[@name=pushd], promt[@name=promt], prompt[@name=prompt], rd[@name=rd], recover[@name=recover], rem[@name=rem], rename[@name=rename], replace[@name=replace], restore[@name=restore], rmdir[@name=rmdir], shiftsort[@name=shiftsort], start[@name=start], subst[@name=subst], time[@name=time], title[@name=title], tree[@name=tree], type[@name=type], ver[@name=ver], verify[@name=verify], vol[@name=vol], ping[@name=ping], net[@name=net], ipconfig[@name=ipconfig], taskkill[@name=taskkill], xcopy[@name=xcopy], ren[@name=ren], del[@name=del]
+}
+
+LineComment { rem | rem CommentText }
+
+@tokens {
+
+  CommentText { ![\n]+ }
+
+  Label { ":" identifier }
+
+  NotVariable { ![\n&%!<>]+ }
+
+  Arobase { "@" }
+
+  SingleCommutator { "/" (@asciiLetter | "?") }
+
+  And { "&" }
+
+  Redirector { "<" | ">" | "<<" | ">>" }
+
+  Quote { "\"" }
+
+  Equal { "=" }
+
+  identifierChar { @asciiLetter | $[_$\u{a1}-\u{10ffff}] }
+
+  word { identifierChar (identifierChar | @digit)* }
+
+  identifier { word }
+  Number { @digit+ }
+  Variable { ("%" ![%]* "%") | ("!" ![!]* "!") }
+  space { " "+ }
+  newline { "\n" }
+
+  @precedence { And, Redirector, CommentText }
+  @precedence { Label, identifier, Variable, Quote, space }
+}
+
